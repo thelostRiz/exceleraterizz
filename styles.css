@@ -1,0 +1,32 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+}
+
+#content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+#chat {
+  background: #fff;
+  padding: 20px;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+#messages {
+  border: 1px solid #ccc;
+  height: 200px;
+  overflow-y: scroll;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+#messageInput {
+  width: 80%;
+  padding: 5px;
+}
