@@ -2,103 +2,32 @@
 <html>
 <head>
   <meta charset="UTF-8" />
-  <title>My Study Notes Blog</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background: #f9f9f9;
-      color: #333;
-    }
-    #content {
-      margin-bottom: 40px;
-    }
-    #messages {
-      border: 1px solid #ddd;
-      background: #fff;
-      padding: 10px;
-      height: 200px;
-      overflow-y: auto;
-      font-size: 14px;
-    }
-    #sendArea {
-      display: none;
-      margin-top: 10px;
-    }
-    .message {
-      padding: 4px 0;
-      border-bottom: 1px dotted #ccc;
-    }
-  </style>
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <title>Test Chat</title>
 </head>
 <body>
-  <div id="content">
-    <h1>My Study Notes Blog</h1>
-    <p>Welcome to my notes. Use this page to keep track of study materials and comments.</p>
-    <p><em>Latest update: Unit 4 summaries and discussion notes below.</em></p>
-  </div>
-
-  <div id="notes">
-    <h2>Notes Feed</h2>
-    <div id="messages"></div>
-    <div id="sendArea">
-      <input type="text" id="messageInput" placeholder="Add your note...">
-      <button onclick="sendMessage()">Post</button>
-    </div>
+  <div id="chat">
+    <h2>Test Chat</h2>
+    <div id="messages" style="border:1px solid #ccc; height:100px; overflow:auto;"></div>
+    <input type="text" id="messageInput" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
   </div>
 
   <script>
-    // Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyArVn0l2PrrSMcCDQPTsD7tn53fJ1uDpuc",
-      authDomain: "exceleraterizz.firebaseapp.com",
-      databaseURL: "https://exceleraterizz-default-rtdb.firebaseio.com",
-      projectId: "exceleraterizz",
-      storageBucket: "exceleraterizz.appspot.com",
-      messagingSenderId: "1009813151609",
-      appId: "1:1009813151609:web:6bc49dc6dca1bec55dd9a8"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-    const messagesRef = db.ref("messages");
-
-    // Load messages
-    messagesRef.on('child_added', snapshot => {
-      const msg = snapshot.val();
-      displayMessage(msg.text);
-    });
-
-    // Display messages
-    function displayMessage(text) {
-      const div = document.createElement("div");
-      div.textContent = text;
-      div.className = "message";
-      document.getElementById("messages").appendChild(div);
-    }
-
-    // Attach sendMessage globally
-    window.sendMessage = function() {
+    function sendMessage() {
       const input = document.getElementById("messageInput");
       const text = input.value.trim();
       if (text) {
-        messagesRef.push({ text });
+        displayMessage(text);
         input.value = "";
       }
     }
 
-    // Secret code unlock
-    document.addEventListener('keydown', function(e) {
-      if (e.key === '#' || e.key === '/') {
-        const code = prompt("Enter code:");
-        if (code === "openchat") {
-          document.getElementById("sendArea").style.display = "block";
-        }
-      }
-    });
+    function displayMessage(text) {
+      const msgDiv = document.createElement("div");
+      msgDiv.textContent = text;
+      document.getElementById("messages").appendChild(msgDiv);
+    }
+    window.sendMessage = sendMessage;
   </script>
 </body>
 </html>
