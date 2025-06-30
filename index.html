@@ -2,8 +2,34 @@
 <html>
 <head>
   <meta charset="UTF-8" />
-  <title>Study Notes Blog</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>My Study Notes Blog</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f9f9f9;
+      color: #333;
+    }
+    #content {
+      margin-bottom: 40px;
+    }
+    #messages {
+      border: 1px solid #ddd;
+      background: #fff;
+      padding: 10px;
+      height: 200px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+    #sendArea {
+      display: none;
+      margin-top: 10px;
+    }
+    .message {
+      padding: 4px 0;
+      border-bottom: 1px dotted #ccc;
+    }
+  </style>
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
@@ -11,15 +37,17 @@
 <body>
   <div id="content">
     <h1>My Study Notes Blog</h1>
-    <p>Welcome to my notes. Use this page to keep track of study materials.</p>
-    <p><em>Latest update: Unit 4 summaries.</em></p>
+    <p>Welcome to my notes. Use this page to keep track of study materials and comments.</p>
+    <p><em>Latest update: Unit 4 summaries and discussion notes below.</em></p>
   </div>
 
-  <div id="chat" style="display: none;">
-    <h2>Secure Chat</h2>
-    <div id="messages" style="border:1px solid #ccc; padding:10px; height:200px; overflow-y:auto;"></div>
-    <input type="text" id="messageInput" placeholder="Type your message...">
-    <button onclick="sendMessage()">Send</button>
+  <div id="notes">
+    <h2>Notes Feed</h2>
+    <div id="messages"></div>
+    <div id="sendArea">
+      <input type="text" id="messageInput" placeholder="Add your note...">
+      <button onclick="sendMessage()">Post</button>
+    </div>
   </div>
 
   <script>
@@ -34,52 +62,43 @@
       appId: "1:1009813151609:web:6bc49dc6dca1bec55dd9a8"
     };
 
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-
-    // Key detection to open chat
-    document.addEventListener('keydown', function(e) {
-      if (e.key === '#' || e.key === '/') {
-        const code = prompt("Enter code:");
-        if (code === "openchat") {
-          document.getElementById("chat").style.display = "block";
-        }
-      }
-    });
-
-    // Reference to messages
     const messagesRef = db.ref("messages");
 
-    // Listen for new messages
+    // Load messages
     messagesRef.on('child_added', snapshot => {
       const msg = snapshot.val();
       displayMessage(msg.text);
     });
 
-    // Make sendMessage globally available
-    function sendMessage() {
+    // Display messages
+    function displayMessage(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      div.className = "message";
+      document.getElementById("messages").appendChild(div);
+    }
+
+    // Attach sendMessage globally
+    window.sendMessage = function() {
       const input = document.getElementById("messageInput");
       const text = input.value.trim();
       if (text) {
-        messagesRef.push({ text })
-          .then(() => {
-            console.log("Message sent:", text);
-          })
-          .catch(error => {
-            console.error("Error sending message:", error);
-          });
+        messagesRef.push({ text });
         input.value = "";
       }
     }
-    window.sendMessage = sendMessage;
 
-    // Function to display a message
-    function displayMessage(text) {
-      const msgDiv = document.createElement("div");
-      msgDiv.textContent = text;
-      document.getElementById("messages").appendChild(msgDiv);
-    }
+    // Secret code unlock
+    document.addEventListener('keydown', function(e) {
+      if (e.key === '#' || e.key === '/') {
+        const code = prompt("Enter code:");
+        if (code === "openchat") {
+          document.getElementById("sendArea").style.display = "block";
+        }
+      }
+    });
   </script>
 </body>
 </html>
