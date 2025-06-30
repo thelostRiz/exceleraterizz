@@ -17,13 +17,28 @@
 
   <div id="chat" style="display: none;">
     <h2>Secure Chat</h2>
-    <div id="messages"></div>
+    <div id="messages" style="border:1px solid #ccc; padding:10px; height:200px; overflow-y:auto;"></div>
     <input type="text" id="messageInput" placeholder="Type your message...">
     <button onclick="sendMessage()">Send</button>
   </div>
 
-  <!-- Inline script for key detection -->
   <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyArVn0l2PrrSMcCDQPTsD7tn53fJ1uDpuc",
+      authDomain: "exceleraterizz.firebaseapp.com",
+      databaseURL: "https://exceleraterizz-default-rtdb.firebaseio.com",
+      projectId: "exceleraterizz",
+      storageBucket: "exceleraterizz.appspot.com",
+      messagingSenderId: "1009813151609",
+      appId: "1:1009813151609:web:6bc49dc6dca1bec55dd9a8"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // Key detection to open chat
     document.addEventListener('keydown', function(e) {
       if (e.key === '#' || e.key === '/') {
         const code = prompt("Enter code:");
@@ -32,6 +47,39 @@
         }
       }
     });
+
+    // Reference to messages
+    const messagesRef = db.ref("messages");
+
+    // Listen for new messages
+    messagesRef.on('child_added', snapshot => {
+      const msg = snapshot.val();
+      displayMessage(msg.text);
+    });
+
+    // Make sendMessage globally available
+    function sendMessage() {
+      const input = document.getElementById("messageInput");
+      const text = input.value.trim();
+      if (text) {
+        messagesRef.push({ text })
+          .then(() => {
+            console.log("Message sent:", text);
+          })
+          .catch(error => {
+            console.error("Error sending message:", error);
+          });
+        input.value = "";
+      }
+    }
+    window.sendMessage = sendMessage;
+
+    // Function to display a message
+    function displayMessage(text) {
+      const msgDiv = document.createElement("div");
+      msgDiv.textContent = text;
+      document.getElementById("messages").appendChild(msgDiv);
+    }
   </script>
 </body>
 </html>
