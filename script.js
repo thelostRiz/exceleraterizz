@@ -18,12 +18,6 @@ document.body.addEventListener('keydown', function(e) {
   alert("You pressed: " + e.key);
 });
 
-    if (code === "openchat") {
-      document.getElementById("chat").style.display = "block";
-    }
-  }
-});
-
 // Listen for new messages and display them
 const messagesRef = db.ref("messages");
 messagesRef.on('child_added', snapshot => {
