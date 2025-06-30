@@ -1,14 +1,20 @@
-// Your Firebase config
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  databaseURL: "YOUR_DB_URL",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_BUCKET",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyArVn0l2PrrSMcCDQPTsD7tn53fJ1uDpuc",
+  authDomain: "exceleraterizz.firebaseapp.com",
+  projectId: "exceleraterizz",
+  storageBucket: "exceleraterizz.firebasestorage.app",
+  messagingSenderId: "1009813151609",
+  appId: "1:1009813151609:web:6bc49dc6dca1bec55dd9a8"
 };
 
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
