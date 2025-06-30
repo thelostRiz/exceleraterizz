@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Study Notes Blog</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+</head>
+<body>
+  <div id="content">
+    <h1>My Study Notes Blog</h1>
+    <p>Welcome to my notes. Use this page to keep track of study materials.</p>
+    <p><em>Latest update: Unit 4 summaries.</em></p>
+  </div>
+
+  <div id="chat" style="display: none;">
+    <h2>Secure Chat</h2>
+    <div id="messages"></div>
+    <input type="text" id="messageInput" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
