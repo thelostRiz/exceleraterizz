@@ -15,8 +15,9 @@ const db = firebase.database();
 
 // Listen for secret code to open chat
 document.body.addEventListener('keydown', function(e) {
-  if (e.key === '#' || e.key === '/') {
-    const code = prompt("Enter code:");
+  alert("You pressed: " + e.key);
+});
+
     if (code === "openchat") {
       document.getElementById("chat").style.display = "block";
     }
