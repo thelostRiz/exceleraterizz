@@ -14,7 +14,7 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 // Listen for secret code to open chat
-document.body.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', function(e) {
   alert("You pressed: " + e.key);
 });
 
