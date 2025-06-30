@@ -22,9 +22,11 @@
     <button onclick="sendMessage()">Send</button>
   </div>
 
-  <!-- Your script loaded AFTER content -->
-  <script src="script.js"></script>
-  
-
+  <!-- Inline script for testing keydown -->
+  <script>
+    document.addEventListener('keydown', function(e) {
+      alert("YOU PRESSED: " + e.key);
+    });
+  </script>
 </body>
 </html>
