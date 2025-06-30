@@ -14,7 +14,6 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 // Listen for secret code to open chat
-<script>
 document.addEventListener('keydown', function(e) {
   if (e.key === '#' || e.key === '/') {
     const code = prompt("Enter code:");
@@ -23,8 +22,6 @@ document.addEventListener('keydown', function(e) {
     }
   }
 });
-</script>
-
 
 // Listen for new messages and display them
 const messagesRef = db.ref("messages");
@@ -49,4 +46,3 @@ function displayMessage(text) {
   msgDiv.textContent = text;
   document.getElementById("messages").appendChild(msgDiv);
 }
-
