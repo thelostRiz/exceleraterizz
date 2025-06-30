@@ -1,25 +1,19 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
+// Your Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyArVn0l2PrrSMcCDQPTsD7tn53fJ1uDpuc",
   authDomain: "exceleraterizz.firebaseapp.com",
+  databaseURL: "https://exceleraterizz-default-rtdb.firebaseio.com",
   projectId: "exceleraterizz",
-  storageBucket: "exceleraterizz.firebasestorage.app",
+  storageBucket: "exceleraterizz.appspot.com",
   messagingSenderId: "1009813151609",
   appId: "1:1009813151609:web:6bc49dc6dca1bec55dd9a8"
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// Listen for secret code
+// Listen for secret code to open chat
 document.body.addEventListener('keydown', function(e) {
   if (e.key === '#' || e.key === '/') {
     const code = prompt("Enter code:");
@@ -29,13 +23,14 @@ document.body.addEventListener('keydown', function(e) {
   }
 });
 
-// Listen for messages
+// Listen for new messages and display them
 const messagesRef = db.ref("messages");
 messagesRef.on('child_added', snapshot => {
   const msg = snapshot.val();
   displayMessage(msg.text);
 });
 
+// Function to send a message
 function sendMessage() {
   const input = document.getElementById("messageInput");
   const text = input.value.trim();
@@ -45,6 +40,7 @@ function sendMessage() {
   }
 }
 
+// Function to display a message
 function displayMessage(text) {
   const msgDiv = document.createElement("div");
   msgDiv.textContent = text;
