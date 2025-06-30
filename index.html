@@ -24,9 +24,17 @@
 
   <!-- Inline script for testing keydown -->
   <script>
-    document.addEventListener('keydown', function(e) {
-      alert("YOU PRESSED: " + e.key);
-    });
+   <script>
+document.addEventListener('keydown', function(e) {
+  if (e.key === '#' || e.key === '/') {
+    const code = prompt("Enter code:");
+    if (code === "openchat") {
+      document.getElementById("chat").style.display = "block";
+    }
+  }
+});
+</script>
+
   </script>
 </body>
 </html>
