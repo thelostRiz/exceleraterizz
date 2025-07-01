@@ -38,7 +38,7 @@
     const db = firebase.database();
     const messagesRef = db.ref("messages");
 
-    // Display messages
+    // Load messages
     messagesRef.on('child_added', snapshot => {
       const msg = snapshot.val();
       displayMessage(msg.text);
@@ -50,7 +50,7 @@
       document.getElementById("messages").appendChild(msgDiv);
     }
 
-    // Globally available sendMessage
+    // Attach sendMessage globally
     window.sendMessage = function() {
       const input = document.getElementById("messageInput");
       const text = input.value.trim();
