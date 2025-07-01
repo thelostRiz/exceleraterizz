@@ -2,32 +2,73 @@
 <html>
 <head>
   <meta charset="UTF-8" />
-  <title>Test Chat</title>
+  <title>Study Notes Blog</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 </head>
 <body>
-  <div id="chat">
-    <h2>Test Chat</h2>
-    <div id="messages" style="border:1px solid #ccc; height:100px; overflow:auto;"></div>
+  <div id="content">
+    <h1>My Study Notes Blog</h1>
+    <p>Welcome to my notes. Use this page to keep track of study materials.</p>
+    <p><em>Latest update: Unit 4 summaries.</em></p>
+  </div>
+
+  <div id="chat" style="display: none;">
+    <h2>Secure Chat</h2>
+    <div id="messages" style="border:1px solid #ccc; padding:10px; height:200px; overflow-y:auto;"></div>
     <input type="text" id="messageInput" placeholder="Type your message...">
     <button onclick="sendMessage()">Send</button>
   </div>
 
   <script>
-    function sendMessage() {
-      const input = document.getElementById("messageInput");
-      const text = input.value.trim();
-      if (text) {
-        displayMessage(text);
-        input.value = "";
-      }
-    }
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyArVn0l2PrrSMcCDQPTsD7tn53fJ1uDpuc",
+      authDomain: "exceleraterizz.firebaseapp.com",
+      databaseURL: "https://exceleraterizz-default-rtdb.firebaseio.com",
+      projectId: "exceleraterizz",
+      storageBucket: "exceleraterizz.appspot.com",
+      messagingSenderId: "1009813151609",
+      appId: "1:1009813151609:web:6bc49dc6dca1bec55dd9a8"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const messagesRef = db.ref("messages");
+
+    // Display messages
+    messagesRef.on('child_added', snapshot => {
+      const msg = snapshot.val();
+      displayMessage(msg.text);
+    });
 
     function displayMessage(text) {
       const msgDiv = document.createElement("div");
       msgDiv.textContent = text;
       document.getElementById("messages").appendChild(msgDiv);
     }
-    window.sendMessage = sendMessage;
+
+    // Globally available sendMessage
+    window.sendMessage = function() {
+      const input = document.getElementById("messageInput");
+      const text = input.value.trim();
+      if (text) {
+        messagesRef.push({ text });
+        input.value = "";
+      }
+    }
+
+    // Secret unlock
+    document.addEventListener('keydown', function(e) {
+      if (e.key === '#' || e.key === '/') {
+        const code = prompt("Enter code:");
+        if (code === "openchat") {
+          document.getElementById("chat").style.display = "block";
+        }
+      }
+    });
   </script>
 </body>
 </html>
